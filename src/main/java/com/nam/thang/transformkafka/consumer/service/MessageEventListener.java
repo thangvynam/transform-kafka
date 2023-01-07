@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageEventListener {
 
-    @KafkaListener(topics = "my-topic-1", groupId = "nam-thang-consumer-group-1")
+    @KafkaListener(topics = "${kafka.topic}", groupId = "${kafka.group-id}")
     public void receiveMessage(String message) {
         System.out.println("Received Message in group foo: " + message);
     }
