@@ -1,6 +1,5 @@
 package com.nam.thang.transformkafka.producer.service;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -22,10 +21,5 @@ public class DefaultProducerService implements ProducerService {
     @Override
     public void sendMessage(String message) {
         kafkaTemplate.send(topicName, message);
-    }
-
-    @PostConstruct
-    public void init() {
-        sendMessage("hello Nam");
     }
 }
