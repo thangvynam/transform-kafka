@@ -1,6 +1,6 @@
 # Start infrastructure
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 # Running the app transform-kafka locally
@@ -16,4 +16,9 @@ curl --location --request POST 'localhost:8081/api/v1/message' \
 --data-raw '{
 "value": "value"
 }'
+```
+
+# Stop infrastructure
+```
+docker-compose stop
 ```
