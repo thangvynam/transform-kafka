@@ -11,6 +11,10 @@ import java.io.Serializable;
  **/
 @Getter
 @Service
-public class Message implements Serializable {
-    private String value;
+public class Order implements Serializable {
+
+    private String id;
+    private int amount;
+    private String customer;
+    private String creditcard;
 }

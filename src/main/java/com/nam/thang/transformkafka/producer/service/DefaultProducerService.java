@@ -1,5 +1,6 @@
 package com.nam.thang.transformkafka.producer.service;
 
+import com.nam.thang.avro.orders.OrderValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,14 +13,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultProducerService implements ProducerService {
 
-    @Value(value = "${kafka.topic}")
+    @Value(value = "${avro.topic.name}")
     private String topicName;
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, OrderValue> kafkaTemplate;
 
     @Override
-    public void sendMessage(String message) {
-        kafkaTemplate.send(topicName, message);
+    public void sendMessage(OrderValue orderValue) {
+        kafkaTemplate.send(topicName, orderValue.getId(), orderValue);
     }
 }

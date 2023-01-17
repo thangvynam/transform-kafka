@@ -2,7 +2,7 @@ version: '2.1'
 services:
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:6.1.1
+    image: confluentinc/cp-zookeeper:5.1.2
     ports:
       - "2181:2181"
     environment:
@@ -10,7 +10,7 @@ services:
 
   # reachable on 9092 from the host and on 29092 from inside docker compose
   kafka:
-    image: confluentinc/cp-kafka:6.1.1
+    image: confluentinc/cp-enterprise-kafka:5.1.2
     depends_on:
       - zookeeper
     ports:
@@ -24,9 +24,10 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
       KAFKA_MIN_INSYNC_REPLICAS: '1'
+      KAFKA_SCHEMA_REGISTRY_URL: "schema-registry:8081"
 
   init-kafka:
-    image: confluentinc/cp-kafka:6.1.1
+    image: confluentinc/cp-kafka:5.1.2
     depends_on:
       - kafka
     entrypoint: [ '/bin/sh', '-c' ]
@@ -43,14 +44,15 @@ services:
       kafka-topics --bootstrap-server kafka:29092 --list
       "
   schema-registry:
-    image: confluentinc/cp-schema-registry:6.2.0
+    image: confluentinc/cp-schema-registry:5.1.2
+    restart: always
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
-      - kafka
+      - zookeeper
     ports:
       - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:9092'
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
