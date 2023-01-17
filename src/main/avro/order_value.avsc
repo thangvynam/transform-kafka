@@ -1,0 +1,17 @@
+{
+  "namespace": "com.thecodinginterface.avro.orders",
+  "type": "record",
+  "name": "OrderValue",
+  "fields": [
+    { "name": "id", "type": "string"},
+    { "name": "amount", "type": "int"},
+    { "name": "created",
+      "type": {
+        "type": "long",
+        "logicalType": "local-timestamp-millis"
+      }
+    },
+    {"name": "customer", "type": "string"},
+    {"name": "creditcard", "type": "string"}
+  ]
+}
